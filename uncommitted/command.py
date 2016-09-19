@@ -92,19 +92,25 @@ SYSTEMS = {
     }
 DOTDIRS = set(SYSTEMS)
 
-def scan(repos, verbose):
+def scan(repos, verbose, ignores):
     """Given a repository list [(path, vcsname), ...], scan each of them."""
     ignore_set = set()
     for directory, dotdir in repos:
-        vcsname, get_status = SYSTEMS[dotdir]
-        lines = get_status(directory, ignore_set)
-        if lines is None:  # signal that we should ignore this one
-            continue
-        if lines or verbose:
-            print('{} - {}'.format(directory, vcsname))
-            for line in lines:
-                print(line)
-            print('')
+        """ Skip this repo if -I is used and the directoy contains the ignore string """
+        if not ignores or ignores not in directory:
+            vcsname, get_status = SYSTEMS[dotdir]
+            lines = get_status(directory, ignore_set)
+            if lines is None:  # signal that we should ignore this one
+                continue
+            if lines or verbose:
+                print('{} - {}'.format(directory, vcsname))
+                for line in lines:
+                    print(line)
+                print('')
+        elif verbose:
+            """ Output ignored repos if verbose """
+            print ("Ignoring repo at: " + directory)
+            print
 
 def main():
     parser = OptionParser(usage=USAGE)
@@ -116,6 +122,8 @@ def main():
         help='manually walk file tree to find repositories (the default)')
     parser.add_option('-L', dest='follow_symlinks', action='store_true',
         help='follow symbolic links when walking file tree')
+    parser.add_option('-I', dest='ignore_dir', action='store', type="string",
+        help='ignore the specified directory')
     (options, args) = parser.parse_args()
 
     if not args:
@@ -141,4 +149,4 @@ def main():
         repos.update(find_repos(path))
 
     repos = sorted(repos)
-    scan(repos, options.verbose)
+    scan(repos, options.verbose, options.ignore_dir)

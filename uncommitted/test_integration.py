@@ -18,7 +18,7 @@ def create_checkouts(tempdir):
     cc(['git', 'config', '--global', 'user.email', 'you@example.com'])
     cc(['git', 'config', '--global', 'user.name', 'Your Name'])
     for system in 'git', 'hg', 'svn':
-        for state in 'clean', 'dirty':
+        for state in 'clean', 'dirty', 'ignoredirectory':
             d = os.path.join(tempdir, system + '-' + state)
 
             if system == 'svn':
@@ -36,7 +36,7 @@ def create_checkouts(tempdir):
             cc([system, 'add', 'maxim.txt'], cwd=d)
             cc([system, 'commit', '-m', 'Add a maxim'], cwd=d)
 
-            if state == 'dirty':
+            if state == 'dirty' or state == 'ignoredirectory':
                 with open(os.path.join(d, 'maxim.txt'), 'a') as f:
                     f.write(more_maxim)
 
@@ -57,7 +57,46 @@ def test_uncommitted():
         shutil.rmtree(tempdir)
     assert result == expected.format(tempdir=tempdir)
 
+def test_uncommittedIgnore():
+    tempdir = tempfile.mkdtemp(prefix='uncommitted-test')
+    try:
+        create_checkouts(tempdir)
+        """ Add ignore flag to skip ignore directories """
+        sys.argv[:] = ['uncommitted', '-I', 'ignoredirectory', tempdir]
+        io = StringIO()
+        stdout = sys.stdout
+        try:
+            sys.stdout = io
+            uncommitted.command.main()
+        finally:
+            sys.stdout = stdout
+        result = io.getvalue()
+    finally:
+        shutil.rmtree(tempdir)
+    assert result == expectedIgnore.format(tempdir=tempdir)
+
 expected = dedent("""\
+    {tempdir}/git-dirty - Git
+     M maxim.txt
+
+    {tempdir}/git-ignoredirectory - Git
+     M maxim.txt
+
+    {tempdir}/hg-dirty - Mercurial
+     M maxim.txt
+
+    {tempdir}/hg-ignoredirectory - Mercurial
+     M maxim.txt
+
+    {tempdir}/svn-dirty - Subversion
+     M       maxim.txt
+
+    {tempdir}/svn-ignoredirectory - Subversion
+     M       maxim.txt
+
+    """)
+
+expectedIgnore = dedent("""\
     {tempdir}/git-dirty - Git
      M maxim.txt
 
@@ -85,3 +124,4 @@ more_maxim = dedent("""\
 
 if __name__ == '__main__':
     test_uncommitted()
+    test_uncommittedIgnore()
