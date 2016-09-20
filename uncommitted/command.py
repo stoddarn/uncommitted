@@ -123,7 +123,7 @@ def main():
     parser.add_option('-L', dest='follow_symlinks', action='store_true',
         help='follow symbolic links when walking file tree')
     parser.add_option('-I', dest='ignore_dir', action='store', type="string",
-        help='ignore the specified directory')
+        help='ignore any directory paths that contain the specified string')
     (options, args) = parser.parse_args()
 
     if not args:
