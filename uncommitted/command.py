@@ -134,7 +134,7 @@ def main():
     parser.add_option('-u', '--untracked', action='store_true',
         help='print untracked files (git only)')
     parser.add_option('-I', dest='ignore_dir', action='store', type="string",
-        help='ignore the specified directory')
+        help='ignore any directory paths that contain the specified string')
     (options, args) = parser.parse_args()
 
     if not args:
