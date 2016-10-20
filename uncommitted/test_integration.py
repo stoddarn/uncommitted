@@ -5,6 +5,7 @@ import re
 import pytest
 import shutil
 import sys
+import time
 import tempfile
 import uncommitted.command
 from subprocess import check_call
