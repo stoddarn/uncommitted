@@ -5,7 +5,6 @@ import re
 import pytest
 import shutil
 import sys
-import time
 import tempfile
 import uncommitted.command
 from subprocess import check_call
@@ -20,8 +19,7 @@ else:
 def tempdir():
     """Temporary directory in which all tests will run."""
     tempdir = tempfile.mkdtemp(prefix='uncommitted-test')
-    """yield tempdir"""
-    time.sleep(5)
+    yield tempdir
     shutil.rmtree(tempdir)
 
 @pytest.fixture(scope='module')
