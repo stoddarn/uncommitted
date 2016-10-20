@@ -69,7 +69,7 @@ def checkouts(git_identity, tempdir, cc):
     os.mkdir(checkouts_dir)
 
     for system in 'git', 'hg', 'svn':
-        for state in 'clean', 'dirty':
+        for state in 'clean', 'dirty', 'ignoredirectory':
             d = os.path.join(checkouts_dir, system + '-' + state)
 
             # Create the repo:
@@ -97,7 +97,7 @@ def checkouts(git_identity, tempdir, cc):
                 cc([system, 'commit', '-m', 'Add more maxim'], cwd=d)
 
             # Make the master branch dirty:
-            if state == 'dirty':
+            if state == 'dirty' or state == 'ignoredirectory':
                 with open(file_to_edit, 'a') as f:
                     f.write(even_more_maxim)
 
@@ -167,6 +167,34 @@ def test_uncommitted(checkouts):
 
     # All dirty checkouts and only them:
     expected_output = dedent("""\
+        {path}/git-dirty - Git
+         M {filename}
+
+        {path}/git-ignoredirectory - Git
+         M {filename}
+
+        {path}/hg-dirty - Mercurial
+         M {filename}
+
+        {path}/hg-ignoredirectory - Mercurial
+         M {filename}
+
+        {path}/svn-dirty - Subversion
+         M       {filename}
+
+        {path}/svn-ignoredirectory - Subversion
+         M       {filename}
+
+        """).format(path=checkouts, filename=filename)
+
+    assert actual_output == expected_output
+
+def test_uncommittedIgnore(checkouts):
+    """Do we detect repositories having uncommitted changes that are not ignored?"""
+    actual_output = run(checkouts)
+
+    # All dirty checkouts and only them:
+    expectedIgnore = dedent("""\
         {path}/git-dirty - Git
          M {filename}
 
