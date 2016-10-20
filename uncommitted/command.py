@@ -162,7 +162,7 @@ def main():
         repos.update(find_repos(path))
 
         '''debug'''
-        print ("-I = " + convert_string(options.ignore_dir))
+        print ("-I = " + str(options.ignore_dir))
         print ("path = " + path)
 
 
