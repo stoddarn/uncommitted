@@ -191,7 +191,7 @@ def test_uncommitted(checkouts):
 
 def test_uncommittedIgnore(checkouts):
     """Do we detect repositories having uncommitted changes that are not ignored?"""
-    actual_output = run("-Iignoredirectory", "-v", checkouts)
+    actual_output = run("-Iignoredirectory", checkouts)
 
     # All dirty checkouts and only them:
     expected_output = dedent("""\

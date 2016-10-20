@@ -104,10 +104,6 @@ def scan(repos, options):
     ignore_set = set()
     for directory, dotdir in repos:
         """ Skip this repo if -I is used and the directoy contains the ignore string """
-        print ("DEBUG: --" + str(options.ignore_dir) + "--")
-        print ("DEBUG: --" + str(directory) + "--")
-        if options.ignore_dir and options.ignore_dir in str(directory):
-            print ("DEBUG: match!")
         if options.ignore_dir and options.ignore_dir in directory:
             if options.verbose:
                 """ Output ignored repos if verbose """
