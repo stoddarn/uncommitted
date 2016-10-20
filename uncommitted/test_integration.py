@@ -167,23 +167,23 @@ def test_uncommitted(checkouts):
 
     # All dirty checkouts and only them:
     expected_output = dedent("""\
-        {tempdir}/git-dirty - Git
-         M maxim.txt
+        {path}/git-dirty - Git
+         M {filename}
 
-        {tempdir}/git-ignoredirectory - Git
-         M maxim.txt
+        {path}/git-ignoredirectory - Git
+         M {filename}
 
-        {tempdir}/hg-dirty - Mercurial
-         M maxim.txt
+        {path}/hg-dirty - Mercurial
+         M {filename}
 
-        {tempdir}/hg-ignoredirectory - Mercurial
-         M maxim.txt
+        {path}/hg-ignoredirectory - Mercurial
+         M {filename}
 
-        {tempdir}/svn-dirty - Subversion
-         M       maxim.txt
+        {path}/svn-dirty - Subversion
+         M       {filename}
 
-        {tempdir}/svn-ignoredirectory - Subversion
-         M       maxim.txt
+        {path}/svn-ignoredirectory - Subversion
+         M       {filename}
 
         """).format(path=checkouts, filename=filename)
 
@@ -198,11 +198,8 @@ def test_uncommittedIgnore(checkouts):
 
     # All dirty checkouts and only them:
     expectedIgnore = dedent("""\
-        {tempdir}/git-dirty - Git
-         M maxim.txt
-
-        {tempdir}/hg-dirty - Mercurial
-         M maxim.txt
+        {path}/git-dirty - Git
+         M {filename}
 
         {path}/hg-dirty - Mercurial
          M {filename}
