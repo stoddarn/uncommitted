@@ -19,7 +19,7 @@ else:
 def tempdir():
     """Temporary directory in which all tests will run."""
     tempdir = tempfile.mkdtemp(prefix='uncommitted-test')
-    """TEST yield tempdir"""
+    yield tempdir
     shutil.rmtree(tempdir)
 
 @pytest.fixture(scope='module')
