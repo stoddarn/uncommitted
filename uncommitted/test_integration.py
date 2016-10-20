@@ -189,25 +189,6 @@ def test_uncommitted(checkouts):
 
     assert actual_output == expected_output
 
-def test_uncommittedIgnore(checkouts):
-    """Do we detect repositories having uncommitted changes that are not ignored?"""
-    actual_output = run(checkouts)
-
-    # All dirty checkouts and only them:
-    expectedIgnore = dedent("""\
-        {path}/git-dirty - Git
-         M {filename}
-
-        {path}/hg-dirty - Mercurial
-         M {filename}
-
-        {path}/svn-dirty - Subversion
-         M       {filename}
-
-        """).format(path=checkouts, filename=filename)
-
-    assert actual_output == expected_output
-
 def test_unpushed_current_branch(clones):
     """Do we detect when the current branch has unpushed changes?"""
     actual_output = run(clones)
