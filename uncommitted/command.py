@@ -122,8 +122,6 @@ def scan(repos, options):
             print('')
 
 def main():
-    print ("DEBUG: Argument List:" + str(sys.argv))
-
     parser = OptionParser(usage=USAGE)
     parser.add_option('-l', '--locate', dest='use_locate', action='store_true',
         help='use locate(1) to find repositories (instead of walking)')
@@ -162,10 +160,6 @@ def main():
             sys.stderr.write('Error: not a directory: %s\n' % (path,))
             continue
         repos.update(find_repos(path))
-
-        '''debug'''
-        print ("-I = " + str(options.ignore_dir))
-        print ("path = " + path)
 
 
     repos = sorted(repos)
