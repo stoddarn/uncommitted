@@ -161,6 +161,5 @@ def main():
             continue
         repos.update(find_repos(path))
 
-
     repos = sorted(repos)
     scan(repos, options)
