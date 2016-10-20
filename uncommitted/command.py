@@ -162,8 +162,6 @@ def main():
         repos.update(find_repos(path))
 
         '''debug'''
-        print ("-w = " + options.use_walk)
-        print ("-u = " + options.untracked)
         print ("-I = " + options.ignore_dir)
         print ("path = " + path)
 
