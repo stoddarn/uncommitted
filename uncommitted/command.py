@@ -107,6 +107,8 @@ def scan(repos, options):
         print ("DEBUG: " + str(options.ignore_dir))
         print ("DEBUG: " + str(directory))
         if options.ignore_dir and options.ignore_dir in directory:
+            print ("DEBUG: match!")
+        if options.ignore_dir and options.ignore_dir in directory:
             if options.verbose:
                 """ Output ignored repos if verbose """
                 print ("Ignoring repo at: " + directory)
