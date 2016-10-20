@@ -193,9 +193,6 @@ def test_uncommittedIgnore(checkouts):
     """Do we detect repositories having uncommitted changes that are not ignored?"""
     actual_output = run(checkouts)
 
-        """ Add ignore flag to skip ignore directories """
-        """ sys.argv[:] = ['uncommitted', '-I', 'ignoredirectory', tempdir] """
-
     # All dirty checkouts and only them:
     expectedIgnore = dedent("""\
         {path}/git-dirty - Git
