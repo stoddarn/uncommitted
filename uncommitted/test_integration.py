@@ -194,7 +194,7 @@ def test_uncommittedIgnore(checkouts):
     actual_output = run(checkouts)
 
     # All dirty checkouts and only them:
-    expectedIgnore = dedent("""\
+    expected_output = dedent("""\
         {path}/git-dirty - Git
          M {filename}
 
