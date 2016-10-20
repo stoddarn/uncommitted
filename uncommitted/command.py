@@ -122,7 +122,7 @@ def scan(repos, options):
             print('')
 
 def main():
-    print 'DEBUG: Argument List:', str(sys.argv)
+    print ("DEBUG: Argument List:" + str(sys.argv))
 
     parser = OptionParser(usage=USAGE)
     parser.add_option('-l', '--locate', dest='use_locate', action='store_true',
